@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import {checkENVs, getDynamicInterval} from "./utils"; // Removed getInterval import since we will define our own logic
+import {checkENVs, getDynamicInterval} from "./utils";
 
 import TMobile from "./providerModels/TMobile";
 
