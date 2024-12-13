@@ -3,7 +3,7 @@
 # Odido Unlimited Auto Bundle Requester
 
 ### Without needing to sniff your URL every month.
-It runs every 5 mins (can be set with ENV variable `UPDATE_INTERVAL`), and requests new bundle when MB's is less than 2000.
+It runs every 10, 2 or 0.5 mins (can be set with ENV variables), and requests new bundle when MB's is less than 2000.
 Firstly a login token is retrieved via the "regular" log in URL, from which a Bearer token is retrieved.
 With the Bearer token the regular API is used to request: current bundles, how much is left on these bundles and then (when needed) a new bundle is requested.
 Every request is retried at least 10 times when a request fails.
@@ -29,6 +29,12 @@ To select a different bundle:
 3. Next, review the available bundles in the logs to determine the correct bundle code.
 4. Once you've identified the desired bundle code, update the `BUYINGCODE` environment variable with the new code.
 
+### Configure intervales
+Based on the amount of MBs left, the intervals do change.
+* More than 10GB available, default interval is 10 min. (Overwrite via env var `UPDATE_INTERVAL_HIGH`)
+* Less than 10GB available, default interval is 2 min. (Overwrite via env var `UPDATE_INTERVAL_MEDIUM`)
+* Less than 2GB available, default interval is 0.5 min. (Overwrite via env var `UPDATE_INTERVAL_LOW`)
+
 ### Node.js with Yarn/NPM
 1. `git clone https://github.com/lodu/TMobile-NL-Unlimited-Bundle-Automated`
 2. `yarn` or `npm install`
@@ -36,7 +42,9 @@ To select a different bundle:
       ```bash
       AUTHORIZATIONTOKEN=xxxxxxxxxx
       MSISDN=+3161234567890
-      UPDATE_INTERVAL=5
+      UPDATE_INTERVAL_HIGH=10
+      UPDATE_INTERVAL_MEDIUM=2
+      UPDATE_INTERVAL_LOW=0.5
       BUYINGCODE=A0DAY01
       DEBUG=0
       ```
@@ -50,7 +58,9 @@ To select a different bundle:
       ```bash
       AUTHORIZATIONTOKEN=xxxxxxxxxx
       MSISDN=+3161234567890
-      UPDATE_INTERVAL=5
+      UPDATE_INTERVAL_HIGH=10
+      UPDATE_INTERVAL_MEDIUM=2
+      UPDATE_INTERVAL_LOW=0.5
       BUYINGCODE=A0DAY01
       DEBUG=0
       ```
@@ -62,7 +72,9 @@ To select a different bundle:
       ```bash
       AUTHORIZATIONTOKEN=xxxxxxxxxx
       MSISDN=+3161234567890
-      UPDATE_INTERVAL=5
+      UPDATE_INTERVAL_HIGH=10
+      UPDATE_INTERVAL_MEDIUM=2
+      UPDATE_INTERVAL_LOW=0.5
       BUYINGCODE=A0DAY01
       DEBUG=0
       ```
@@ -75,7 +87,9 @@ To select a different bundle:
    ```bash
    AUTHORIZATIONTOKEN=xxxxxxxxxx
    MSISDN=+3161234567890
-   UPDATE_INTERVAL=5
+   UPDATE_INTERVAL_HIGH=10
+   UPDATE_INTERVAL_MEDIUM=2
+   UPDATE_INTERVAL_LOW=0.5
    BUYINGCODE=A0DAY01
    DEBUG=0
    ```

@@ -63,14 +63,41 @@ export function checkENVs() {
   }
 }
 
-// When ENV-variable is not set return 5
-export function getInterval(): number {
-  const interval: number = isNaN(parseInt(process.env.UPDATE_INTERVAL || ""))
-    ? 5
-    : parseInt(process.env.UPDATE_INTERVAL);
+function getInterval(type: 'low' | 'medium' | 'high'): number {
+  let intervalEnvVar: string | undefined;
+  let defaultInterval: number;
+
+  switch (type) {
+    case 'low':
+      intervalEnvVar = process.env.UPDATE_INTERVAL_LOW;
+      defaultInterval = 0.5; // 0.5 minutes
+      break;
+    case 'medium':
+      intervalEnvVar = process.env.UPDATE_INTERVAL_MEDIUM;
+      defaultInterval = 2; // 2 minutes
+      break;
+    case 'high':
+      intervalEnvVar = process.env.UPDATE_INTERVAL_HIGH;
+      defaultInterval = 10; // 10 minutes
+      break;
+    default:
+      throw new Error(`Unknown interval type: ${type}`);
+  }
+
+  const interval: number = isNaN(parseFloat(intervalEnvVar || "")) ? defaultInterval : parseFloat(intervalEnvVar);
   return minsToMs(interval);
 }
 
 function minsToMs(minutes: number): number {
   return minutes * 1000 * 60;
+}
+
+export function getDynamicInterval(MBsLeft: number): number {
+  if (MBsLeft < 2000) {
+    return getInterval('low');
+  } else if (MBsLeft < 10000) {
+    return getInterval('medium');
+  } else {
+    return getInterval('high');
+  }
 }

@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { checkENVs, getInterval } from "./utils";
+import {checkENVs, getDynamicInterval} from "./utils";
 
 import TMobile from "./providerModels/TMobile";
 
@@ -18,8 +18,13 @@ const run = async () => {
   if (MBsLeft < 2000) {
     tmobile.requestBundle();
   }
+  return MBsLeft;
 };
-run()
-setInterval(() => {
-  run();
-}, getInterval());
+
+const executeWithDynamicInterval = async () => {
+  const MBsLeft = await run();
+  const interval = getDynamicInterval(MBsLeft);
+  setTimeout(executeWithDynamicInterval, interval);
+};
+
+executeWithDynamicInterval();
