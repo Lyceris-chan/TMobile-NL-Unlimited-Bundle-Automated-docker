@@ -39,7 +39,7 @@ export default class TMobile {
   private async getSubscriptionsResource(): Promise<SubscriptionsResource> {
     let subscriptionsResource: SubscriptionsResource = null;
 
-    const URI: string = `${this.API_URI}/account/current?resourcelabel=LinkedSubscriptions`;
+    const URI: string = `${this.API_URI}/c88084b603f5/linkedsubscriptions`;
     const headers: Headers = makeHeaders(
       Object.assign(this.DEFAULT_HEADERS, {
         Authorization: `Bearer ${this.BearerAuthorizationCode}`,
